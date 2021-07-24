@@ -83,6 +83,7 @@ app.get("/api/workouts/range", (req, res) => {
         })
 });
 
+
 //Delete Route 
 
 app.delete('/api/workouts', ({ body }, res) => {
