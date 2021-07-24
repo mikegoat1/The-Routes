@@ -20,10 +20,12 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { use
 
 
 
+
 //create a route for creating a workout
 app.post("/api/workouts", ({ body }, res) => {
     db.Workout.create({})
         .then(dbWorkout => {
+            console.log(dbWorkout)
             res.json(dbWorkout);
         })
         .catch(err => {
@@ -35,8 +37,10 @@ app.post("/api/workouts", ({ body }, res) => {
 //Working on updating 
 app.put("/api/workouts/:id", (req, res) => {
     //Grabing the parameter from the URL and adding it to the exercise object property 
-    db.Workout.findOneAndUpdate(req.params.id, { $push: { exercises: req.body } }, { new: true })
+    console.log(req.params.id)
+    db.Workout.findByIdAndUpdate(req.params.id, { $push: { exercises: req.body } }, { new: true })
         .then(dbWorkout => {
+            console.log(dbWorkout)
             res.json(dbWorkout);
         })
         .catch(err => {
@@ -104,7 +108,9 @@ app.get("/stats", (req, res) => {
     res.sendFile(path.join(__dirname, "./public/stats.html"))
 })
 
-
+app.get("/", function(req, res) {
+    res.json(path.join(__dirname, "./public/index.html"));
+  });
 
 
 
